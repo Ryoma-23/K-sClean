@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, CalendarPlus, Check, Send, X } from "lucide-react";
-import { type Booking, type Candidate, type Message, type Slot, clinics, hours, label, monthLabel, pending, slots, workers } from "../demo";
+import { type Booking, type Candidate, type Message, type Slot, clinics, createDemoId, hours, label, monthLabel, pending, slots, workers } from "../demo";
 import { Badge, Calendar } from "./calendar";
 
 export function Modal({ title, children, close }: { title: string; children: ReactNode; close: () => void }) {
@@ -80,7 +80,7 @@ export function TentativeForm({ today, close, save }: { today: string; close: ()
   const valid = kind === "month" ? month >= min && month <= max : day >= min + "-01" && day <= max + "-31";
   return <Modal title="仮予約を登録" close={close}><p className="muted">{year}年の清掃予定を仮予約として登録します。</p>
     <form onSubmit={event => { event.preventDefault(); if (valid) save({
-      id: crypto.randomUUID(), clinic, worker: clinics[clinic].worker, status: "tentative", candidates: [],
+      id: createDemoId(), clinic, worker: clinics[clinic].worker, status: "tentative", candidates: [],
       ...(kind === "month" ? { month } : { chosen: { date: day, slot, note: "" } }),
     }); }}>
       <label>医院<select value={clinic} onChange={event => setClinic(Number(event.target.value))}>{clinics.map(item => <option value={item.id} key={item.id}>{item.name}</option>)}</select></label>

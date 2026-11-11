@@ -68,8 +68,13 @@ export function entries(bookings: Booking[]) {
   return bookings.flatMap(booking => (pending(booking) ? booking.candidates : booking.chosen ? [booking.chosen] : [])
     .map((candidate, index) => ({ booking, candidate, rank: pending(booking) ? index + 1 : 0 })));
 }
+export function createDemoId() {
+  // getRandomValues also works when the demo is opened over HTTP on a LAN.
+  const bytes = crypto.getRandomValues(new Uint8Array(16));
+  return Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("");
+}
 export function newMessage(clinic: number, from: Message["from"], text: string): Message {
-  return { id: crypto.randomUUID(), clinic, from, text, time: new Date().toISOString(), unread: from === "doctor" };
+  return { id: createDemoId(), clinic, from, text, time: new Date().toISOString(), unread: from === "doctor" };
 }
 export const storageKey = "keizu-clean-demo-v1";
 export function readData(today: string): Data {

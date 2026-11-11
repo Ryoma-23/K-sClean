@@ -1,0 +1,5 @@
+.pnpm-store/
+.next/
+node_modules/
+out/
+*.tsbuildinfo

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ArrowRight, Building2, CalendarCheck, CalendarDays, CalendarPlus, ChevronRight, ClipboardList, Clock3, House, Info, LayoutDashboard, MessageCircle, RotateCcw, ShieldCheck, Sparkles, Users, Wrench } from "lucide-react";
-import { type Booking, type Candidate, type Data, clinics, demoThursday, hours, key, label, newMessage, pending, readData, seed, statuses, storageKey, workers } from "../demo";
+import { type Booking, type Candidate, type Data, clinics, createDemoId, demoThursday, hours, key, label, newMessage, pending, readData, seed, statuses, storageKey, workers } from "../demo";
 import { BookingRow, Schedule } from "../components/calendar";
 import { BookingDetail, Chat, Modal, RequestForm, TentativeForm } from "../components/forms";
 
@@ -83,7 +83,7 @@ function Portal({ today, initialData }: { today: string; initialData: Data }) {
   }
   function submit() {
     if (!doctor || draft.length < 1 || draft.length > 3 || new Set(draft.map(item => item.date)).size !== draft.length || draft.some(item => item.date < key(new Date()))) return;
-    const booking: Booking = { id: crypto.randomUUID(), clinic: 0, status: "requested", candidates: draft.map(item => ({ ...item, note: item.note.trim() })) };
+    const booking: Booking = { id: createDemoId(), clinic: 0, status: "requested", candidates: draft.map(item => ({ ...item, note: item.note.trim() })) };
     persist({ ...data, bookings: [booking, ...data.bookings] });
     setDraft([]);
     go("calendar");
